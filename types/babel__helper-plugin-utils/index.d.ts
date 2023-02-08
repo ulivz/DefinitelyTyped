@@ -4,12 +4,28 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.8
 
-import type * as babel from '@babel/core';
+import type {
+  PluginAPI,
+  PluginObject,
+  PluginPass,
+  PresetAPI,
+  PresetObject,
+} from "@babel/core";
 
-export type BabelAPI = typeof babel & babel.ConfigAPI;
-export function declare<
-    O extends Record<string, any>,
-    R extends babel.PluginObj = babel.PluginObj
->(
-    builder: (api: BabelAPI, options: O, dirname: string) => R,
-): (api: object, options: O | null | undefined, dirname: string) => R;
+export declare function declare<State = {}, Option = {}>(
+  builder: (
+    api: PluginAPI,
+    options: Option,
+    dirname: string,
+  ) => PluginObject<State & PluginPass>,
+): (
+  api: PluginAPI,
+  options: Option,
+  dirname: string,
+) => PluginObject<State & PluginPass>;
+
+export declare const declarePreset: <Option = {}>(
+  builder: (api: PresetAPI, options: Option, dirname: string) => PresetObject,
+) => (api: PresetAPI, options: Option, dirname: string) => PresetObject;
+
+
